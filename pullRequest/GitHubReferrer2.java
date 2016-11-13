@@ -80,6 +80,13 @@ public class GitHubReferrer2 {
         else csv.delete();
         PrintWriter csvWriter = new PrintWriter(new FileWriter(csv));
 
+        csvWriter.println("\""+ "title" +
+                           "\",\"" + "message" +
+                            "\",\"" + "filename" +
+                            "\",\"" + "additions" + "\",\"" + "deletions" +
+                             "\",\"" + "changes"  + "\",\"" + "created_at"  + "\",\"" + "milestone" + "\"");
+        csvWriter.flush();
+
         int page = 1;
         while (true) {
             // 全てのプルリクエストの概要のURL
@@ -135,9 +142,13 @@ public class GitHubReferrer2 {
                             continue;
                        //contents.add(""+commit.get("message"));
                         //csv書き出し
-//                       csvWriter.println("\""+ escDblQuote((String) pullRequest.get("title")) + "\",\"" + escDblQuote((String) commit.get("commit").get("message")) + "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") + "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  + "\",\"" + milestone + "\"");
-//                       csvWriter.flush();
-//                        System.out.println( file.get("patch"));
+                       csvWriter.println("\""+ escDblQuote((String) pullRequest.get("title")) +
+                                          "\",\"" + escDblQuote((String) commit.get("commit").get("message")) +
+                                           "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") +
+                                            "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  +
+                                             "\",\"" + pullRequest.get("created_at") + "\",\"" + milestone + "\"");
+                       csvWriter.flush();
+                       //System.out.println( file.get("patch"));
                     }
                 }
 //                pullRequestsContents.add(contents);

@@ -93,10 +93,12 @@ public class FormatMaker {
     }
 
     public void writeCodeName(File file) {
-        String str = "<artifact><id>" + file + "</id><content>" + file + "</content><parent_id/></artifact>" + "\r\n";
+        String[] ID = file.toString().split("\"\"");
+        String str = "<artifact><id>" + ID[ID.length-1] + "</id><content>" + file + "</content><parent_id/></artifact>" + "\r\n";
 //        String str = "<artifact><id>," + IDName +num+ ",</id><content>" + file + "</content><parent_id/></artifact>" + "\r\n";
 //        num++;
         articleList.add(str);
+
     }
 
     ArrayList<String> makeArticleList() {

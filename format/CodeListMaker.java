@@ -2,6 +2,8 @@ package format;
 
 import param.Param;
 
+import java.io.File;
+
 /**
  * Created by kazuki on 2016/06/22.
  */
@@ -21,5 +23,10 @@ public class CodeListMaker extends FormatMaker {
         setName(name);
         setDescription(description);
         setIDName(IDName);
+    }
+
+    public void writeCodeName(File file) {
+        String str = "<artifact><id>" + file + "</id><content>" + file + "</content><parent_id/></artifact>" + "\r\n";
+        articleList.add(str);
     }
 }

@@ -64,8 +64,10 @@ public class GitHubReferrer2 {
     //    public static void makePullRequestCsv(String user, String repo) throws Exception {
     public static void main(String[] args) throws Exception {
         // userとrepoは試験的に固定にしている
-        String user = "AndlyticsProject"; // リポジトリのユーザー
-        String repo = "andlytics"; // リポジトリ名
+//        String user = "AndlyticsProject"; // リポジトリのユーザー
+//        String repo = "andlytics"; // リポジトリ名
+        String user = "dougkeen"; // リポジトリのユーザー
+        String repo = "bartrunnerandroid"; // リポジトリ名
 
         String baseUrl = "https://api.github.com";
 
@@ -135,7 +137,7 @@ public class GitHubReferrer2 {
                         //csv書き出し
 //                       csvWriter.println("\""+ escDblQuote((String) pullRequest.get("title")) + "\",\"" + escDblQuote((String) commit.get("commit").get("message")) + "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") + "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  + "\",\"" + milestone + "\"");
 //                       csvWriter.flush();
-//                        System.out.println( file.get("patch"));
+                        System.out.println( file.get("patch"));
                     }
                 }
 //                pullRequestsContents.add(contents);

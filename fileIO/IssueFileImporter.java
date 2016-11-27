@@ -22,7 +22,8 @@ public class IssueFileImporter extends DataImporter{
             Map<String, IssueData> issue = new HashMap<String, IssueData>();
 
             String pullRequest = "";
-            String ID = "app\\issue\\";
+//            String ID = "app\\issue\\";
+            String ID = "issue";
             int IDNum=0;
             IssueData issue2 = null;
             for (String[] lines : list) {

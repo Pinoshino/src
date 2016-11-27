@@ -12,7 +12,7 @@ public class FunctionListMaker extends FormatMaker {
     static String ID = "FF";
     static String name = "function file";
     static String description = "this is function file";
-    static String IDName = "ff";
+    static String IDName = "function";
 
     void initialize() {
         setFormatFile(functionFile);

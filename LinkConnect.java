@@ -12,7 +12,7 @@ import java.util.Map;
 public class LinkConnect {
 
     public static void main(String[] args) {
-        int commit=2;
+        int commit=1;
 
 //        Map<String, Issue2Data> issueList = new Issue2FileImporter().importIssueFile();
         Map<String, IssueData> issueList = new IssueFileImporter().importIssueFile(commit);
@@ -98,8 +98,13 @@ public class LinkConnect {
                 IssueData list = issueList.get(issue);
 
                 for (Code code : list.getCodes()) {
-                    double sumScore = score * ((double) code.getChangeAddNum() / list.getSumChangeAddNum());
-                    connectLink.add(new ConnectLinkData(req, issue, code.getCode(), score, code.getChangeAddNum(), list.getSumChangeAddNum(), ((double) code.getChangeAddNum() / list.getSumChangeAddNum()), 0, sumScore));
+                    double percent;
+                    if(list.getSumChangeAddNum()!=0)
+                        percent = ((double) code.getChangeAddNum() / list.getSumChangeAddNum());
+                    else
+                        percent = 0;
+                    double sumScore = score * percent;
+                            connectLink.add(new ConnectLinkData(req, issue, code.getCode(), score, code.getChangeAddNum(), list.getSumChangeAddNum(), percent, 0, sumScore));
                 }
             }
         }

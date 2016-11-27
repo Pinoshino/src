@@ -51,12 +51,12 @@ public class IssueFileExporter extends DataExporter{
             if(frag==1) { //プルリクエストごと
                 for (String comment : issue.getComments().values())
                     str.add(comment + " ");
-                DataExporter.export(str, file + num + ".txt");
+                DataExporter.export(str, file + issue.getID());
                 num++;
             }else if(frag==2){ //コミットごと
                 for(String comment: issue.getComments().values()) {
                     str.add(comment);
-                    DataExporter.export(str, file + num + ".txt");
+                    DataExporter.export(str, file + issue.getID());
                     num++;
                     str.clear();
                     str.add(issue.getPullRequest()+" ");

@@ -9,7 +9,7 @@ import format.*;
  */
 public class Main {
     public static void main(String[] args) {
-//        issueFormater();
+        issueFormater();
         traceLabFormatMaker();
 
     }
@@ -17,12 +17,12 @@ public class Main {
         int pullResuest = 1;
         int commit = 2;
 
-        Map<String, IssueData> issueList = new IssueFileImporter().importIssueFile(commit);
+        Map<String, IssueData> issueList = new IssueFileImporter().importIssueFile(pullResuest);
         //        プルリクエストごとのissue作成
 //        new Issue2ListMaker().pullRequestIssueFileExport(issueList);
 
 //        コミットごとのissue作成
-        new IssueFileExporter().exportIssueFile(issueList, commit);
+        new IssueFileExporter().exportIssueFile(issueList, pullResuest);
     }
 
     static void traceLabFormatMaker(){

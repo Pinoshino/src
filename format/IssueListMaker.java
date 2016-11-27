@@ -12,7 +12,7 @@ public class IssueListMaker extends FormatMaker {
     static String ID = "IF";
     static String name = "Issue";
     static String description = "this is issue";
-    static String IDName = "if";
+    static String IDName = "issue";
 
 
     void initialize() {

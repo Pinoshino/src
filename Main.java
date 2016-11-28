@@ -14,15 +14,15 @@ public class Main {
 
     }
     static void issueFormater(){
-        int pullResuest = 1;
-        int commit = 2;
+//        pullResuest単位なら 1; commit単位なら 2
+        int flag = 1;
 
-        Map<String, IssueData> issueList = new IssueFileImporter().importIssueFile(pullResuest);
+        Map<String, IssueData> issueList = new IssueFileImporter().importIssueFile(flag);
         //        プルリクエストごとのissue作成
 //        new Issue2ListMaker().pullRequestIssueFileExport(issueList);
 
 //        コミットごとのissue作成
-        new IssueFileExporter().exportIssueFile(issueList, pullResuest);
+        new IssueFileExporter().exportIssueFile(issueList, flag);
     }
 
     static void traceLabFormatMaker(){

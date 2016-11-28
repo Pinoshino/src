@@ -9,20 +9,9 @@ import java.util.Map;
  */
 public class IssueData implements Data {
 
-//    class Code{
-//        String code;
-//        int changeNum;
-//
-//        Code(String code, int changeNum) {
-//            this.code = code;
-//            this.changeNum = changeNum;
-//        }
-//    }
-//    static Map<String, ArrayList<data.IssueData>> issueList = new HashMap<String, ArrayList<data.IssueData>>();
-
     String ID;
     String pullRequest;
-    Map<String,String> comments = new HashMap<String, String>();
+    Map<String,String> commits = new HashMap<String, String>();
     ArrayList<Code> codes = new ArrayList<Code>();
     int sumChangeNum =0;
     int sumChangeAddNum =0;
@@ -47,20 +36,20 @@ public class IssueData implements Data {
         return pullRequest;
     }
 
-    public Map<String, String> getComments() {
-        return comments;
+    public Map<String, String> getCommits() {
+        return commits;
     }
 
-    public IssueData(String ID, String pullRequest, String comment, String code, int changeNum,int changeAddNum) {
+    public IssueData(String ID, String pullRequest, String commit, String code, int changeNum,int changeAddNum) {
         this.ID = ID;
         this.pullRequest = pullRequest;
-        setComment(comment);
+        setCommit(commit);
         setCode(code, changeNum,changeAddNum);
     }
 
-    public void setComment(String comment){
-        if(!comments.containsKey(comment)){
-            comments.put(comment,comment);
+    public void setCommit(String commit){
+        if(!commits.containsKey(commit)){
+            commits.put(commit,commit);
         }
     }
 

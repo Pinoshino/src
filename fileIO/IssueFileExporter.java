@@ -20,7 +20,7 @@ public class IssueFileExporter extends DataExporter{
         list.add(text);
 
         for (IssueData link : issueList.values()) {
-            list.add(link.getID() + "," + link.getPullRequest() + "," + link.getComments() + "," +
+            list.add(link.getID() + "," + link.getPullRequest() + "," + link.getCommits() + "," +
                     getCodeList(link.getCodes())+"\r\n");
         }
         export(list, fileName);
@@ -42,22 +42,21 @@ public class IssueFileExporter extends DataExporter{
         if(!folder.exists())
             folder.mkdir();
 
-        int num=1;
+
         ArrayList<String> str = new ArrayList<String>();
         for(IssueData issue: issueList.values()){
             str.clear();
             str.add(issue.getPullRequest()+" ");
 
             if(frag==1) { //プルリクエストごと
-                for (String comment : issue.getComments().values())
-                    str.add(comment + " ");
+                for (String commit : issue.getCommits().values())
+                    str.add(commit + " ");
                 DataExporter.export(str, file + issue.getID());
-                num++;
+
             }else if(frag==2){ //コミットごと
-                for(String comment: issue.getComments().values()) {
-                    str.add(comment);
+                for(String commit: issue.getCommits().values()) {
+                    str.add(commit);
                     DataExporter.export(str, file + issue.getID());
-                    num++;
                     str.clear();
                     str.add(issue.getPullRequest()+" ");
                 }

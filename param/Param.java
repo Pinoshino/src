@@ -9,8 +9,7 @@ public class Param {
     public static final String codeListFile = "data/import/codeList.xml";
 
 //リンクの結合
-    public static final String issueDataFile = "data/import/issueData.txt";
-    public static final String issue2DataFile = "data/import/issue.csv";
+    public static final String issueDataFile = "data/import/issue.csv";
     public static final String linkListFile = "data/import/sim.csv";
 
     //traceLab用実データ

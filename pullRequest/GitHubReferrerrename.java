@@ -1,20 +1,18 @@
 package pullRequest;
 
-import net.arnx.jsonic.JSON;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 //import format.PullRequestListMaker;
+import net.arnx.jsonic.JSON; // JSON展開ライブラリ
 
 /**
  * Created by Ryoto on 2016/08/06.
  */
-public class GitHubReferrer2 {
+public class GitHubReferrerrename {
     // GitHubAPIにアクセスするためのトークン。アクセス制限数を増やせる
     private static final String GITHUB_TOKEN = "ad5b2f370efa8124701d728f9e13ff1ebfcc1859";
     /*
@@ -64,8 +62,6 @@ public class GitHubReferrer2 {
     //    public static void makePullRequestCsv(String user, String repo) throws Exception {
     public static void main(String[] args) throws Exception {
         // userとrepoは試験的に固定にしている
-//        String user = "AndlyticsProject"; // リポジトリのユーザー
-//        String repo = "andlytics"; // リポジトリ名
         String user = "dougkeen"; // リポジトリのユーザー
         String repo = "bartrunnerandroid"; // リポジトリ名
 
@@ -80,13 +76,6 @@ public class GitHubReferrer2 {
         else csv.delete();
         PrintWriter csvWriter = new PrintWriter(new FileWriter(csv));
 
-        csvWriter.println("\""+ "title" +
-                           "\",\"" + "message" +
-                            "\",\"" + "filename" +
-                            "\",\"" + "additions" + "\",\"" + "deletions" +
-                             "\",\"" + "changes"  + "\",\"" + "created_at"  + "\",\"" + "milestone" + "\"");
-        csvWriter.flush();
-
         int page = 1;
         while (true) {
             // 全てのプルリクエストの概要のURL
@@ -97,21 +86,8 @@ public class GitHubReferrer2 {
 
             // 取得したプルリクエスト一覧についてコミット一覧を取得する
             for (Map pullRequest : pullRequests) {
-
-//               テスト用
-//            Map pullRequest = pullRequests[0];
-//                if(pullRequest.containsKey("milestone")) {
-//                    System.out.println(pullRequest.containsKey("milestone"));
-//                    csvWriter.println(pullRequest.get("milestone"));
-//                }
-
-//                ArrayList<String> contents = new ArrayList<String>();
-//                contents.add(pullRequest.get("title").toString());
-                Map milestones = (Map) pullRequest.get("milestone");
-                String milestone;
-                if(milestones==null) milestone=null;
-                else milestone = (String) milestones.get("title");
-
+                ArrayList<String> contents = new ArrayList<String>();
+                contents.add(pullRequest.get("title").toString());
 
                 // 1プルリクエストのコミット一覧URL
                 String pullUrl = pullRequest.get("commits_url").toString();
@@ -120,11 +96,6 @@ public class GitHubReferrer2 {
 
                 // 取得したコミット一覧について、各コミットの詳細情報を取得する
                 for (Map<String, Map> commit : commits) {
-
-//                テスト用
-//            Map<String, Map> commit = commits[0];
-//            csvWriter.println(commit);
-
                     // 1コミットの詳細URL
                     String commitUrl = baseUrl + "/repos/" + user + "/" + repo + "/commits/" + commit.get("sha");
                     // 取得
@@ -132,26 +103,16 @@ public class GitHubReferrer2 {
 
                     // 取得したコミット情報の中から、ファイルに関する情報を取り出し詳細を書き出す
                     ArrayList<Map> files = commitDetail.get("files");
-
-//                    テスト用
-//            Map file = files.get(0);
-//            csvWriter.println(file);
-
                     for (Map file : files) {
-                        if (!((String) file.get("filename")).contains(".java"))
+                        if (!((String) file.get("filename")).contains(".java") || file.get("changes").toString().equals("0"))
                             continue;
-                       //contents.add(""+commit.get("message"));
-                        //csv書き出し
-                       csvWriter.println("\""+ escDblQuote((String) pullRequest.get("title")) +
-                                          "\",\"" + escDblQuote((String) commit.get("commit").get("message")) +
-                                           "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") +
-                                            "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  +
-                                             "\",\"" + pullRequest.get("created_at") + "\",\"" + milestone + "\"");
-                       csvWriter.flush();
-                       //System.out.println( file.get("patch"));
+                        contents.add(""+commit.get("message"));
+                        // csv書き出し
+                        csvWriter.println("\"" + escDblQuote((String) pullRequest.get("title")) + "\",\"" + escDblQuote((String) commit.get("commit").get("message")) + "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") + "\",\"" + file.get("deletions") + "\",\"" + file.get("changes") + "\"");
+                        csvWriter.flush();
                     }
                 }
-//                pullRequestsContents.add(contents);
+                pullRequestsContents.add(contents);
             }
             page++;
         }

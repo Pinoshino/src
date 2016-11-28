@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-//import format.PullRequestListMaker;
 
 /**
  * Created by Ryoto on 2016/08/06.
@@ -24,7 +23,6 @@ public class GitHubReferrer2 {
      * 1~... : message
      * が記録されている
      */
-    private static ArrayList<ArrayList<String>> pullRequestsContents = new ArrayList<ArrayList<String>>();
 
     /**
      * URLにコネクションして読み取りきるまでreadLineする
@@ -64,10 +62,8 @@ public class GitHubReferrer2 {
     //    public static void makePullRequestCsv(String user, String repo) throws Exception {
     public static void main(String[] args) throws Exception {
         // userとrepoは試験的に固定にしている
-//        String user = "AndlyticsProject"; // リポジトリのユーザー
-//        String repo = "andlytics"; // リポジトリ名
-        String user = "dougkeen"; // リポジトリのユーザー
-        String repo = "bartrunnerandroid"; // リポジトリ名
+        String user = "Kaljurand"; // リポジトリのユーザー
+        String repo = "Diktofon"; // リポジトリ名
 
         String baseUrl = "https://api.github.com";
 
@@ -91,15 +87,6 @@ public class GitHubReferrer2 {
             // 取得したプルリクエスト一覧についてコミット一覧を取得する
             for (Map pullRequest : pullRequests) {
 
-//               テスト用
-//            Map pullRequest = pullRequests[0];
-//                if(pullRequest.containsKey("milestone")) {
-//                    System.out.println(pullRequest.containsKey("milestone"));
-//                    csvWriter.println(pullRequest.get("milestone"));
-//                }
-
-//                ArrayList<String> contents = new ArrayList<String>();
-//                contents.add(pullRequest.get("title").toString());
                 Map milestones = (Map) pullRequest.get("milestone");
                 String milestone;
                 if(milestones==null) milestone=null;
@@ -114,10 +101,6 @@ public class GitHubReferrer2 {
                 // 取得したコミット一覧について、各コミットの詳細情報を取得する
                 for (Map<String, Map> commit : commits) {
 
-//                テスト用
-//            Map<String, Map> commit = commits[0];
-//            csvWriter.println(commit);
-
                     // 1コミットの詳細URL
                     String commitUrl = baseUrl + "/repos/" + user + "/" + repo + "/commits/" + commit.get("sha");
                     // 取得
@@ -126,26 +109,19 @@ public class GitHubReferrer2 {
                     // 取得したコミット情報の中から、ファイルに関する情報を取り出し詳細を書き出す
                     ArrayList<Map> files = commitDetail.get("files");
 
-//                    テスト用
-//            Map file = files.get(0);
-//            csvWriter.println(file);
 
                     for (Map file : files) {
                         if (!((String) file.get("filename")).contains(".java"))
                             continue;
-                       //contents.add(""+commit.get("message"));
+
                         //csv書き出し
-//                       csvWriter.println("\""+ escDblQuote((String) pullRequest.get("title")) + "\",\"" + escDblQuote((String) commit.get("commit").get("message")) + "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") + "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  + "\",\"" + milestone + "\"");
-//                       csvWriter.flush();
-                        System.out.println( file.get("patch"));
+                       csvWriter.println("\""+ escDblQuote((String) pullRequest.get("title")) + "\",\"" + escDblQuote((String) commit.get("commit").get("message")) + "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") + "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  + "\",\"" + milestone + "\"");
+                       csvWriter.flush();
                     }
                 }
-//                pullRequestsContents.add(contents);
             }
             page++;
         }
-        // 要求-プルリクエスト対応xmlの作成
-//        new PullRequestListMaker(pullRequestsContents).makeFormat();
         csvWriter.close();
     }
 }

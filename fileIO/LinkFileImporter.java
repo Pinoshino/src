@@ -13,13 +13,13 @@ public class LinkFileImporter extends DataImporter {
 
     public ArrayList<LinkData> importLinkFile() {
         ArrayList<String[]> list = loadList(fileName);
-        ArrayList<LinkData> linkList = new ArrayList<LinkData>();
+        ArrayList<LinkData> outputLink = new ArrayList<LinkData>();
 
         list.remove(0);
         for (String[] lines : list) {
-            linkList.add(new LinkData(lines[0], lines[1], Double.parseDouble(lines[2])));
+            outputLink.add(new LinkData(lines[0], lines[1], Double.parseDouble(lines[2])));
         }
-        return linkList;
+        return outputLink;
     }
 
     public ArrayList<LinkData> importLinkFile(String file) {

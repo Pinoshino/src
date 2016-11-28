@@ -66,34 +66,6 @@ public class IssueFileImporter extends DataImporter{
 
 
 
-//    IDがコミットごと
-//    public  Map<String, IssueData> importIssueFile2() {
-//        ArrayList<String[]> list = loadList(fileName);
-//        Map<String, IssueData> issue = new HashMap<String, IssueData>();
-//
-//        String pullRequest = "";
-//        String ID = "if";
-//        int IDNum=0;
-//        IssueData issue2 = null;
-//        for (String[] lines : list) {
-//            if (pullRequest.equals(lines[0])){
-//                if(!issue2.getCommits().containsKey(lines[1])) {
-//                    issue.put(ID+IDNum,issue2);
-//                    IDNum++;
-//                    issue2 = new IssueData(ID+IDNum,lines[0],lines[1],lines[2],Integer.parseInt(lines[5]),Integer.parseInt(lines[3]));
-//                }else {
-//                    issue2.setCode(lines[2], Integer.parseInt(lines[5]),Integer.parseInt(lines[3]));
-//                }
-//            } else{
-//                if (!pullRequest.equals(""))
-//                    issue.put(ID+IDNum,issue2);
-//                IDNum++;
-//                pullRequest = lines[0];
-//                issue2 = new IssueData(ID+IDNum,lines[0],lines[1],lines[2],Integer.parseInt(lines[5]),Integer.parseInt(lines[3]));
-//            }
-//        }
-//        issue.put(ID+IDNum,issue2);
-//        return issue;
-//    }
+
 
 }

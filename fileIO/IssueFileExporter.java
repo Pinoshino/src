@@ -1,6 +1,5 @@
 package fileIO;
 
-import data.Code;
 import data.IssueData;
 import param.Param;
 
@@ -13,27 +12,19 @@ import java.util.Map;
  */
 public class IssueFileExporter extends DataExporter{
     static String fileName = Param.issueListFile;
-    static String text = "ID,pull request,commit,code\r\n";
+    static String text = "id,pull request,commit,code\r\n";
 
     public static void exportIssueList(Map<String, IssueData> issueList){
-        ArrayList<String> list = new ArrayList<String>();
-        list.add(text);
+        ArrayList<String> outputList = new ArrayList<String>();
+        outputList.add(text);
 
         for (IssueData link : issueList.values()) {
-            list.add(link.getID() + "," + link.getPullRequest() + "," + link.getCommits() + "," +
-                    getCodeList(link.getCodes())+"\r\n");
+            outputList.add(link.getID() + "," + link.getPullRequest() + "," + link.getCommitList()+ "," +
+                    link.getCodeList()+"\r\n");
         }
-        export(list, fileName);
+        export(outputList, fileName);
     }
 
-   static String getCodeList(ArrayList<Code> codeList){
-       String str="";
-        for (int i=0;i<codeList.size(); i++){
-            Code code = codeList.get(i);
-            str +=code.getCode()+",";
-        }
-       return str;
-    }
 
     public void exportIssueFile(Map<String, IssueData> issueList, int frag){
         String file="app/issue/";

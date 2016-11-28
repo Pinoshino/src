@@ -4,7 +4,7 @@ package data;
  * Created by kazuki on 2016/06/20.
  */
 public class ConnectLinkData implements Data {
-    String req;
+    String function;
     String issue;
     String code;
     double score;
@@ -14,8 +14,8 @@ public class ConnectLinkData implements Data {
     double delScore;
     double sumScore;
 
-    public ConnectLinkData(String req, String issue, String code, double score, int addition, int deletion, double addScore, double delScore, double sumScore) {
-        this.req = req;
+    public ConnectLinkData(String function, String issue, String code, double score, int addition, int deletion, double addScore, double delScore, double sumScore) {
+        this.function = function;
         this.issue = issue;
         this.code = code;
         this.score = score;
@@ -26,8 +26,8 @@ public class ConnectLinkData implements Data {
         this.sumScore = sumScore;
     }
 
-    public String getReq() {
-        return req;
+    public String getFunction() {
+        return function;
     }
 
     public String getIssue() {

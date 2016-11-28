@@ -23,7 +23,7 @@ public class Param {
 //リンクの結合結果
     public static final String issueListFile = "data/export/issueList.csv";
     public static final String sumLinkFile = "data/export/sumSameLink.csv";
-    public static final String connectalinkListFile = "data/export/connectLinkList.csv";
+    public static final String connectLinkListFile = "data/export/connectLinkList.csv";
 
     //TraceLab用ファイル
     public static String codeFile = "data/export/codefile.xml";

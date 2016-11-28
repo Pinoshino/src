@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by kazuki on 2016/06/21.
  */
 public class ConnectLinkFileImporter extends DataImporter {
-    static String fileName = Param.connectalinkListFile;
+    static String fileName = Param.connectLinkListFile;
 
     public ArrayList<ConnectLinkData> importConnectLinkFile() {
         ArrayList<String[]> list = loadList(fileName);

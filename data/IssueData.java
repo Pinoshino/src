@@ -14,7 +14,7 @@ public class IssueData implements Data {
     Map<String,String> commits = new HashMap<String, String>();
     ArrayList<Code> codes = new ArrayList<Code>();
     int sumChangeNum =0;
-    int sumChangeAddNum =0;
+    int sumAddNum =0;
 
     public String getID() {
         return ID;
@@ -28,8 +28,8 @@ public class IssueData implements Data {
         return sumChangeNum;
     }
 
-    public int getSumChangeAddNum() {
-        return sumChangeAddNum;
+    public int getSumAddNum() {
+        return sumAddNum;
     }
 
     public String getPullRequest() {
@@ -56,7 +56,23 @@ public class IssueData implements Data {
     public void setCode(String code, int changeNum, int changeAddNum){
         codes.add(new Code(code, changeNum,changeAddNum));
         sumChangeNum+=changeNum;
-        sumChangeAddNum+=changeAddNum;
+        sumAddNum +=changeAddNum;
+    }
+
+    public String getCommitList(){
+        Map<String, String> commitList = getCommits();
+        String str="";
+        for(String commit: commitList.values())
+            str +=commit+" ";
+        return str;
+    }
+
+    public String getCodeList(){
+        ArrayList<Code> codeList = getCodes();
+        String str="";
+        for(Code code: codeList)
+            str +=code.getCode()+" ";
+        return str;
     }
 
 }

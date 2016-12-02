@@ -2,7 +2,7 @@ import data.IssueData;
 import fileIO.IssueFileExporter;
 import fileIO.IssueFileImporter;
 import format.*;
-;import java.util.Map;
+  import java.util.Map;
 
 /**
  * Created by kazuki on 2016/06/20.

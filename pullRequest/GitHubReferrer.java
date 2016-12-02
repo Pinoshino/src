@@ -12,7 +12,7 @@ import net.arnx.jsonic.JSON; // JSON展開ライブラリ
 /**
  * Created by Ryoto on 2016/08/06.
  */
-public class GitHubReferrerrename {
+public class GitHubReferrer {
     // GitHubAPIにアクセスするためのトークン。アクセス制限数を増やせる
     private static final String GITHUB_TOKEN = "ad5b2f370efa8124701d728f9e13ff1ebfcc1859";
     /*

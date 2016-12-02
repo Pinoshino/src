@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by Ryoto on 2016/08/06.
  */
-public class GitHubReferrer2 {
+public class GitHubReferrer3 {
     // GitHubAPIにアクセスするためのトークン。アクセス制限数を増やせる
     private static final String GITHUB_TOKEN = "ad5b2f370efa8124701d728f9e13ff1ebfcc1859";
     /*
@@ -66,10 +66,10 @@ public class GitHubReferrer2 {
         // userとrepoは試験的に固定にしている
 //        String user = "AndlyticsProject"; // リポジトリのユーザー
 //        String repo = "andlytics"; // リポジトリ名
-        // String user = "dougkeen"; // リポジトリのユーザー
-        // String repo = "bartrunnerandroid"; // リポジトリ名
-        String user = "Pinoshino"; // リポジトリのユーザー
-        String repo = "src"; // リポジトリ名
+        String user = "dougkeen"; // リポジトリのユーザー
+        String repo = "bartrunnerandroid"; // リポジトリ名
+        // String user = "Pinoshino"; // リポジトリのユーザー
+        // String repo = "src"; // リポジトリ名
 
         String baseUrl = "https://api.github.com";
 
@@ -139,7 +139,7 @@ public class GitHubReferrer2 {
 //            Map file = files.get(0);
 //            csvWriter.println(file);
 
-                    for (Map file : files) {
+                    for (Map file : files)
                         if (!((String) file.get("filename")).contains(".java"))
                             continue;
                        //contents.add(""+commit.get("message"));
@@ -148,7 +148,7 @@ public class GitHubReferrer2 {
                                           "\",\"" + escDblQuote((String) commit.get("commit").get("message")) +
                                            "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") +
                                             "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  + "\",\"" + pullRequest.get("diff_url") +
-                                             "\",\"" + pullRequest.get("created_at") + "\",\"" + milestone + "\"");
+                                             "\",\"" + pullRequest.get("created_at") + "\",\"" + milestone + "\",\"" + file.get("diff_url") + "\"");
                        csvWriter.flush();
                        //System.out.println( file.get("patch"));
                     }

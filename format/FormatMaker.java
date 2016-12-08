@@ -59,18 +59,18 @@ public class FormatMaker {
             String text = "";
 
             if (line.equals("<id>")) {
-                text = "\t<id>" + ID + "</id>" + "\r\n";
+                text = "\t<id>" + ID + "</id>";
             } else if (line.equals("<name>")) {
-                text = "\t<name>" + name + "</name>" + "\r\n";
+                text = "\t<name>" + name + "</name>";
             } else if (line.equals("<description>")) {
-                text = "\t<description>" + description + "</description>" + "\r\n";
+                text = "\t<description>" + description + "</description>";
             } else if (line.equals("<artifacts>")) {
-                text = "<artifacts>" + "\r\n";
+                text = "<artifacts>";
                 list.add(text);
                 list.addAll(makeArticleList());
-                text = "</artifacts>" + "\r\n";
+                text = "</artifacts>";
             } else {
-                text = line + "\r\n";
+                text = line;
             }
             list.add(text);
         }
@@ -94,7 +94,7 @@ public class FormatMaker {
 
     public void writeCodeName(File file) {
         String[] ID = file.toString().split("\\\\");
-        String str = "<artifact><id>" + ID[ID.length-1] + "</id><content>" + file + "</content><parent_id/></artifact>" + "\r\n";
+        String str = "<artifact><id>" + ID[ID.length-1] + "</id><content>" + file + "</content><parent_id/></artifact>";
         articleList.add(str);
     }
 

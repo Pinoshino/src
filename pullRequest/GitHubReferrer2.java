@@ -1,5 +1,6 @@
 package pullRequest;
 
+import fileIO.DataExporter;
 import net.arnx.jsonic.JSON;
 
 import java.io.*;
@@ -8,6 +9,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static param.Param.renameListFile;
 
 
 /**
@@ -62,8 +65,8 @@ public class GitHubReferrer2 {
     //    public static void makePullRequestCsv(String user, String repo) throws Exception {
     public static void main(String[] args) throws Exception {
         // userとrepoは試験的に固定にしている
-        String user = "Kaljurand"; // リポジトリのユーザー
-        String repo = "Diktofon"; // リポジトリ名
+        String user = "AndlyticsProject"; // リポジトリのユーザー
+        String repo = "andlytics"; // リポジトリ名
 
         String baseUrl = "https://api.github.com";
 
@@ -75,6 +78,7 @@ public class GitHubReferrer2 {
         if (!csv.exists()) csv.createNewFile();
         else csv.delete();
         PrintWriter csvWriter = new PrintWriter(new FileWriter(csv));
+        ArrayList<String> str2 = new ArrayList<String>();
 
         int page = 1;
         while (true) {
@@ -84,6 +88,7 @@ public class GitHubReferrer2 {
             Map[] pullRequests = JSON.decode(getLineFromUrl(pullsUrl), Map[].class);
             if (pullRequests.length == 0) break;
 
+
             // 取得したプルリクエスト一覧についてコミット一覧を取得する
             for (Map pullRequest : pullRequests) {
 
@@ -92,36 +97,42 @@ public class GitHubReferrer2 {
                 if(milestones==null) milestone=null;
                 else milestone = (String) milestones.get("title");
 
-
-                // 1プルリクエストのコミット一覧URL
-                String pullUrl = pullRequest.get("commits_url").toString();
-                // 取得
-                Map<String, Map>[] commits = JSON.decode(getLineFromUrl(pullUrl), Map[].class);
-
-                // 取得したコミット一覧について、各コミットの詳細情報を取得する
-                for (Map<String, Map> commit : commits) {
-
-                    // 1コミットの詳細URL
-                    String commitUrl = baseUrl + "/repos/" + user + "/" + repo + "/commits/" + commit.get("sha");
-                    // 取得
-                    Map<String, ArrayList<Map>> commitDetail = JSON.decode(getLineFromUrl(commitUrl), Map.class);
-
-                    // 取得したコミット情報の中から、ファイルに関する情報を取り出し詳細を書き出す
-                    ArrayList<Map> files = commitDetail.get("files");
+                ArrayList<String> str1 =Display.returnWebInfo(pullRequest.get("html_url")+"/files");
+                str2.add("\""+escDblQuote((String) pullRequest.get("title"))+"\",\""+pullRequest.get("created_at")+"\"");
+                str2.addAll(Search_rename.search(str1));
 
 
-                    for (Map file : files) {
-                        if (!((String) file.get("filename")).contains(".java"))
-                            continue;
-
-                        //csv書き出し
-                       csvWriter.println("\""+ escDblQuote((String) pullRequest.get("title")) + "\",\"" + escDblQuote((String) commit.get("commit").get("message")) + "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") + "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  + "\",\"" + milestone + "\"");
-                       csvWriter.flush();
-                    }
-                }
+//                // 1プルリクエストのコミット一覧URL
+//                String pullUrl = pullRequest.get("commits_url").toString();
+//                // 取得
+//                Map<String, Map>[] commits = JSON.decode(getLineFromUrl(pullUrl), Map[].class);
+//
+//                // 取得したコミット一覧について、各コミットの詳細情報を取得する
+//                for (Map<String, Map> commit : commits) {
+//
+//                    // 1コミットの詳細URL
+//                    String commitUrl = baseUrl + "/repos/" + user + "/" + repo + "/commits/" + commit.get("sha");
+//                    // 取得
+//                    Map<String, ArrayList<Map>> commitDetail = JSON.decode(getLineFromUrl(commitUrl), Map.class);
+//
+//                    // 取得したコミット情報の中から、ファイルに関する情報を取り出し詳細を書き出す
+//                    ArrayList<Map> files = commitDetail.get("files");
+//
+//
+//                    for (Map file : files) {
+//                        if (!((String) file.get("filename")).contains(".java"))
+//                            continue;
+//
+//                        //csv書き出し
+//                        // csvWriter.println("\""+ escDblQuote((String) pullRequest.get("title")) + "\",\"" + escDblQuote((String) commit.get("commit").get("message")) + "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") + "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  + "\",\"" + milestone  + "\",\""+ escDblQuote((String) commit.get("commit").get("message"))+ "\"");
+//                       csvWriter.println("\""+ escDblQuote((String) pullRequest.get("title")) + "\",\"" + escDblQuote((String) commit.get("commit").get("message")) + "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") + "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  + "\",\"" + milestone  + "\"");
+//                       csvWriter.flush();
+//                    }
+//                }
             }
             page++;
         }
+        DataExporter.export(str2,renameListFile);
         csvWriter.close();
     }
 }

@@ -20,6 +20,8 @@ public class Param {
     public static String textFile = "data/template/text.txt";
 
     //出力データ
+    public static final String renameListFile = "data/export/renameList.csv";
+
 //リンクの結合結果
     public static final String issueListFile = "data/export/issueList.csv";
     public static final String sumLinkFile = "data/export/sumSameLink.csv";

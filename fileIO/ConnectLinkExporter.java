@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class ConnectLinkExporter extends DataExporter{
     static String fileName = Param.connectLinkListFile;
-    static String text = "requirement,issue,score,code name,addition,addition score,deletion,deletion score,total score\r\n";
+    static String text = "requirement,issue,score,code name,addition num,addition ratio,total addition num, none ,total score";
 
     public static void exportConnectLink(ArrayList<ConnectLinkData> connectList) {
         ArrayList<String> list = new ArrayList<String>();
@@ -18,7 +18,7 @@ public class ConnectLinkExporter extends DataExporter{
 
         for (ConnectLinkData link : connectList) {
             list.add(link.getFunction() + "," + link.getIssue() + "," + link.getScore() + "," + link.getCode() + "," +
-                    link.getAddition() + "," + link.getAddScore() + "," + link.getDeletion() + "," + link.getDelScore() + "," + link.getSumScore() + "\r\n");
+                    link.getAddition() + "," + link.getAddScore() + "," + link.getDeletion() + "," + link.getDelScore() + "," + link.getSumScore());
         }
         export(list, fileName);
     }

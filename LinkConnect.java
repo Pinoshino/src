@@ -13,7 +13,7 @@ public class LinkConnect {
 
     public static void main(String[] args) {
         //        pullResuest単位なら 1; commit単位なら 2
-        int flag = 1;
+        int flag = 2;
 
 //        issueの読み込み&書き出し
         Map<String, IssueData> issueList = new IssueFileImporter().importIssueFile(flag);

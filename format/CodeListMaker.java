@@ -27,7 +27,7 @@ public class CodeListMaker extends FormatMaker {
 
     public void writeCodeName(File file) {
         String filename = file.toString().replace("\\","/");
-        String str = "<artifact><id>" + filename + "</id><content>" + file + "</content><parent_id/></artifact>" + "\r\n";
+        String str = "<artifact><id>" + filename + "</id><content>" + file + "</content><parent_id/></artifact>";
         articleList.add(str);
     }
 }

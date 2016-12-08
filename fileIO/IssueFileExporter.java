@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class IssueFileExporter extends DataExporter{
     static String fileName = Param.issueListFile;
-    static String text = "id,pull request,commit,code\r\n";
+    static String text = "id,pull request,commit,code";
 
     public static void exportIssueList(Map<String, IssueData> issueList){
         ArrayList<String> outputList = new ArrayList<String>();
@@ -20,7 +20,7 @@ public class IssueFileExporter extends DataExporter{
 
         for (IssueData link : issueList.values()) {
             outputList.add(link.getID() + "," + link.getPullRequest() + "," + link.getCommitList()+ "," +
-                    link.getCodeList()+"\r\n");
+                    link.getCodeList());
         }
         export(outputList, fileName);
     }

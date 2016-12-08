@@ -15,7 +15,7 @@ public class DataExporter {
                     new FileOutputStream(file), "Shift_JIS"));
 
             for (String link : list) {
-                bw.write(link);
+                bw.write(link+"\r\n");
             }
 
             bw.close();

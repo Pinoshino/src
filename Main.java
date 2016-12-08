@@ -1,8 +1,12 @@
 import data.IssueData;
+import fileIO.DataExporter;
 import fileIO.IssueFileExporter;
 import fileIO.IssueFileImporter;
 import format.*;
-;import java.util.Map;
+import pullRequest.Display;
+import pullRequest.Search_rename;
+;import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by kazuki on 2016/06/20.
@@ -15,7 +19,7 @@ public class Main {
     }
     static void issueFormater(){
 //        pullResuest単位なら 1; commit単位なら 2
-        int flag = 1;
+        int flag = 2;
 
         Map<String, IssueData> issueList = new IssueFileImporter().importIssueFile(flag);
         //        プルリクエストごとのissue作成

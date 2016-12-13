@@ -1,6 +1,5 @@
 import data.LinkData;
 import fileIO.CodeIDImporter;
-import fileIO.DataImporter;
 import fileIO.LinkFileImporter;
 import fileIO.LinkListExporter;
 
@@ -12,17 +11,17 @@ import java.util.Map;
  */
 public class CodeChange {
     public static void main(String[] args) {
-        Map<String, String> codeList = new CodeIDImporter().importCodeID();
-        ArrayList<LinkData> linkList = new LinkFileImporter().importLinkFile();
+        Map<String, String> codeList = CodeIDImporter.importCodeID();
+        ArrayList<LinkData> linkList = LinkFileImporter.importLinkFile();
 
-        ArrayList<LinkData> linkList2 = new ArrayList<LinkData>();
+        ArrayList<LinkData> outputLinkList = new ArrayList<LinkData>();
 
         for(LinkData link: linkList){
-            if(codeList.containsKey(link.getArti2())){
-                link.setArti2(codeList.get(link.getArti2()));
-                linkList2.add(link);
+            if(codeList.containsKey(link.getArticle2())){
+                link.setArticle2(codeList.get(link.getArticle2()));
+                outputLinkList.add(link);
             }
         }
-        LinkListExporter.exportLinkList(linkList2);
+        LinkListExporter.exportLinkList(outputLinkList);
     }
 }

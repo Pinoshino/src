@@ -10,17 +10,28 @@ import java.util.ArrayList;
  */
 public class LinkListExporter extends DataExporter {
     static String fileName = Param.sumLinkFile;
-    static String text = "requirement,code,addition score,deletion score,total score";
+
 
     public static void exportLinkList(ArrayList<LinkData> linkList) {
+        String text = "requirement,code,score";
         ArrayList<String> list = new ArrayList<String>();
         list.add(text);
 
         for (LinkData link : linkList) {
-            list.add(link.getArti1() + "," + link.getArti2() + "," + link.getAddScore() + "," +
-                    link.getDelScore() + "," + link.getSumScore());
+            list.add(link.getArticle1() + "," + link.getArticle2() + "," + link.getSumScore());
         }
 
+        export(list, fileName);
+    }
+
+    public static void exportVersionLinkList(ArrayList<LinkData> linkList) {
+        String text = "requirement,code,total score,status";
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(text);
+
+        for (LinkData link : linkList) {
+            list.add(link.getArticle1() + "," + link.getArticle2() + "," + link.getSumScore() + "," + link.getStatus());
+        }
         export(list, fileName);
     }
 }

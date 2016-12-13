@@ -16,14 +16,14 @@ public class CompareLinks {
         ArrayList<LinkData> linkList2 = new LinkFileImporter().importLinkFile(file2);
 
         for(LinkData link: linkList1){
-            String[] str = link.getArti2().split("/",0);
+            String[] str = link.getArticle2().split("/",0);
             String code = str[str.length-1];
-            String ID = link.getArti1();
+            String ID = link.getArticle1();
 
             for (LinkData link2: linkList2){
-                String[] str2 = link2.getArti2().split("/",0);
+                String[] str2 = link2.getArticle2().split("/",0);
                 String code2 = str2[str2.length-1];
-                String ID2 = link2.getArti1();
+                String ID2 = link2.getArticle1();
                 if(code.equals(code2)){
                     if(ID.equals(ID2)) {
                         num++;

@@ -9,20 +9,18 @@ public class ConnectLinkData implements Data {
     String code;
     double score;
     int addition;
-    int deletion;
-    double addScore;
-    double delScore;
+    int sumAddition;
     double sumScore;
+    double ratio;
 
-    public ConnectLinkData(String function, String issue, String code, double score, int addition, int deletion, double addScore, double delScore, double sumScore) {
+    public ConnectLinkData(String function, String issue, String code, double score, int addition, int sumAddition, double ratio, double sumScore) {
         this.function = function;
         this.issue = issue;
         this.code = code;
         this.score = score;
         this.addition = addition;
-        this.deletion = deletion;
-        this.addScore = addScore;
-        this.delScore = delScore;
+        this.sumAddition = sumAddition;
+        this.ratio = ratio;
         this.sumScore = sumScore;
     }
 
@@ -38,24 +36,20 @@ public class ConnectLinkData implements Data {
         return code;
     }
 
+    public int getSumAddition() {
+        return sumAddition;
+    }
+
+    public double getRatio() {
+        return ratio;
+    }
+
     public double getScore() {
         return score;
     }
 
     public int getAddition() {
         return addition;
-    }
-
-    public int getDeletion() {
-        return deletion;
-    }
-
-    public double getAddScore() {
-        return addScore;
-    }
-
-    public double getDelScore() {
-        return delScore;
     }
 
     public double getSumScore() {

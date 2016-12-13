@@ -3,49 +3,48 @@ package data;
 /**
  * Created by kazuki on 2016/06/20.
  */
-public class LinkData implements Data{
-    String arti1;
-    String arti2;
-    double addScore;
-    double delScore;
+public class LinkData implements Data {
+    String article1;
+    String article2;
     double sumScore;
+    String status;
 
-    public LinkData(String arti1, String arti2, double sumScore) {
-        this.arti1 = arti1;
-        this.arti2 = arti2;
+    public LinkData(String article1, String article2, double sumScore) {
+        this.article1 = article1;
+        this.article2 = article2;
         this.sumScore = sumScore;
     }
 
-    public LinkData(String arti1, String arti2, double addScore, double delScore, double sumScore) {
-        this.arti1 = arti1;
-        this.arti2 = arti2;
-        this.addScore = addScore;
-        this.delScore = delScore;
+    public LinkData(String article1, String article2, double sumScore, String status) {
+        this.article1 = article1;
+        this.article2 = article2;
         this.sumScore = sumScore;
+        this.status = status;
     }
 
-    public String getArti1() {
-        return arti1;
+
+    public String getStatus() {
+        return status;
     }
 
-    public void setArti1(String arti1) {
-        this.arti1 = arti1;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setArti2(String arti2) {
-        this.arti2 = arti2;
+    public String getArticle1() {
+        return article1;
     }
 
-    public String getArti2() {
-        return arti2;
+    public String getArticle2() {
+        return article2;
     }
 
-    public double getAddScore() {
-        return addScore;
+    public void setArticle1(String article1) {
+        this.article1 = article1;
     }
 
-    public double getDelScore() {
-        return delScore;
+    public void setArticle2(String article2) {
+        this.article2 = article2;
     }
 
     public double getSumScore() {

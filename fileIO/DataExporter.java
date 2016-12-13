@@ -10,15 +10,22 @@ public class DataExporter {
 
     public static void export(ArrayList<String> list, String fileName) {
         try {
-            File file = new File(fileName);
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(file), "Shift_JIS"));
+            File csv = new File(fileName);
+            if (!csv.exists()) csv.createNewFile();
+            else csv.delete();
+            PrintWriter csvWriter = new PrintWriter(new FileWriter(csv));
+
+
+//            File file = new File(fileName);
+//            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+//                    new FileOutputStream(file), "Shift_JIS"));
 
             for (String link : list) {
-                bw.write(link+"\r\n");
+                csvWriter.println(link);
+                csvWriter.flush();
             }
 
-            bw.close();
+            csvWriter.close();
         } catch (IOException e) {
             System.out.println(e);
             System.exit(0);

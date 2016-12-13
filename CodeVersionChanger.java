@@ -27,9 +27,9 @@ public class CodeVersionChanger {
     static  ArrayList<LinkData> changeCodeVersion(Map<String,String> codeVersionList, ArrayList<LinkData> links){
         ArrayList<LinkData> resultLink = new ArrayList<LinkData>();
         for (LinkData link:links){
-            String code = link.getArti2();
+            String code = link.getArticle2();
             if(codeVersionList.containsKey(code)){
-                resultLink.add(new LinkData(link.getArti1(),codeVersionList.get(code),link.getSumScore()));
+                resultLink.add(new LinkData(link.getArticle1(),codeVersionList.get(code),link.getSumScore()));
             }else{
                 resultLink.add(link);
             }

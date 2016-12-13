@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class LinkFileImporter extends DataImporter {
     static String fileName = Param.linkListFile;
 
-    public ArrayList<LinkData> importLinkFile() {
+    public static ArrayList<LinkData> importLinkFile() {
         ArrayList<String[]> list = loadList(fileName);
         ArrayList<LinkData> outputLink = new ArrayList<LinkData>();
 
@@ -22,13 +22,27 @@ public class LinkFileImporter extends DataImporter {
         return outputLink;
     }
 
-    public ArrayList<LinkData> importLinkFile(String file) {
+    public static ArrayList<LinkData> importLinkFile(String file) {
         ArrayList<String[]> list = loadList(file);
         ArrayList<LinkData> linkList = new ArrayList<LinkData>();
 
         list.remove(0);
         for (String[] lines : list) {
             linkList.add(new LinkData(lines[0], lines[1], Double.parseDouble(lines[2])));
+        }
+        return linkList;
+    }
+
+    public static ArrayList<LinkData> importLink_ver(String file) {
+        ArrayList<String[]> list = loadList(file);
+        ArrayList<LinkData> linkList = new ArrayList<LinkData>();
+
+        list.remove(0);
+        for (String[] lines : list) {
+            if (lines.length == 3)
+                linkList.add(new LinkData(lines[0], lines[1], Double.parseDouble(lines[2])));
+            else if (lines.length == 4)
+                linkList.add(new LinkData(lines[0], lines[1], Double.parseDouble(lines[2]), lines[3]));
         }
         return linkList;
     }

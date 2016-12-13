@@ -17,8 +17,8 @@ public class ConnectLinkFileImporter extends DataImporter {
 
         list.remove(0);
         for (String[] lines : list) {
-            link.add(new ConnectLinkData(lines[0], lines[1], lines[3], Double.parseDouble(lines[2]), Integer.parseInt(lines[4]),
-                    Integer.parseInt(lines[6]), Double.parseDouble(lines[5]), Double.parseDouble(lines[7]), Double.parseDouble(lines[8])));
+            link.add(new ConnectLinkData(lines[0], lines[1], lines[2], Double.parseDouble(lines[3]), Integer.parseInt(lines[4]),
+                    Integer.parseInt(lines[5]), Double.parseDouble(lines[6]), Double.parseDouble(lines[7])));
         }
         return link;
     }

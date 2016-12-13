@@ -12,9 +12,9 @@ import java.util.Map;
 public class CodeIDImporter extends DataImporter {
     static String fileName = Param.codeListFile;
 
-    public  Map<String,String> importCodeID() {
+    public static Map<String, String> importCodeID() {
         ArrayList<String[]> list = loadList(fileName);
-        Map<String,String> codeList = new HashMap<String, String>();
+        Map<String, String> codeList = new HashMap<String, String>();
 
         for (String[] lines : list) {
             codeList.put(lines[0], lines[1]);

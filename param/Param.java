@@ -6,7 +6,7 @@ package param;
 public class Param {
     //入力データ
 
-    public static final String codeListFile = "data/import/codeList.xml";
+    public static final String codeListFile = "data/import/codeRenameList.csv";
 
 //リンクの結合
     public static final String issueDataFile = "data/import/issue.csv";

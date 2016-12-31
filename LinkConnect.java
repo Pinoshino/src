@@ -16,37 +16,36 @@ public class LinkConnect {
         int flag = 2;
 
 //        issueの読み込み&書き出し
-        Map<String, IssueData> issueList = IssueFileImporter.importIssueFile(flag);
-        IssueFileExporter.exportIssueList(issueList);
+        Map<String, IssueData> issueList = IssueImporter.importIssueFile(flag);
+        IssueExporter.exportIssueList(issueList);
 
 //        リンクの結合
-        ArrayList<LinkData> linkList = LinkFileImporter.importLinkFile();
-        ArrayList<ConnectLinkData> connectLink = connectLink(linkList, issueList);
-        ConnectLinkExporter.exportConnectLink(connectLink);
+        ArrayList<LinkData> linkList = LinkImporter.importFun_IssueLink();
+        ArrayList<LinkData> connectLink = connectLink(linkList, issueList);
+        LinkExporter.exportConnectLink(connectLink);
 
 //        重複リンクの統合
 //        linkList=sumSameLink(new ConnectLinkFileImporter().importConnectLinkFile());
         linkList = sumSameLink(connectLink);
-        LinkListExporter.exportLinkList(linkList);
+        LinkExporter.exportLinkList(linkList);
     }
 
 
-    static ArrayList<LinkData> sumSameLink(ArrayList<ConnectLinkData> connectLink) {
+    static ArrayList<LinkData> sumSameLink(ArrayList<LinkData> connectLink) {
         Map<String, Map<String, LinkData>> hashList = new HashMap<String, Map<String, LinkData>>();
 
-        for (ConnectLinkData list : connectLink) {
-            double sum = list.getSumScore();
+        for (LinkData list : connectLink) {
             String req = list.getFunction();
             String code = list.getCode();
+            double score = list.getCulcScore();
 
             if (hashList.containsKey(req) && hashList.get(req).containsKey(code)) {
-                LinkData link = hashList.get(req).get(code);
-                sum += link.getSumScore();
-                hashList.get(req).put(code, new LinkData(req, code, sum));
+                score += hashList.get(req).get(code).getScore();
+                hashList.get(req).put(code, new LinkData(req,"",code,score));
             } else {
                 if (!hashList.containsKey(req))
                     hashList.put(req, new HashMap<String, LinkData>());
-                hashList.get(req).put(code, new LinkData(req, code,  sum));
+                hashList.get(req).put(code, new LinkData(req,"",code,score));
             }
         }
 
@@ -55,20 +54,20 @@ public class LinkConnect {
             Map<String, LinkData> temp = new HashMap<String, LinkData>(hashList.get(key1));
             for (String key2 : temp.keySet()) {
                 LinkData link = temp.get(key2);
-                linkList.add(new LinkData(link.getArticle1(), link.getArticle2(),  link.getSumScore()));
+                linkList.add(link);
             }
         }
         return linkList;
     }
 
 
-    static ArrayList<ConnectLinkData> connectLink(ArrayList<LinkData> linkList, Map<String, IssueData> issueList) {
-        ArrayList<ConnectLinkData> connectLink = new ArrayList<ConnectLinkData>();
+    static ArrayList<LinkData> connectLink(ArrayList<LinkData> linkList, Map<String, IssueData> issueList) {
+        ArrayList<LinkData> connectLink = new ArrayList<LinkData>();
 
         for (LinkData link : linkList) {
-            String functionID = link.getArticle1();
-            String issueID = link.getArticle2();
-            Double score = link.getSumScore();
+            String functionID = link.getFunction();
+            String issueID = link.getIssue();
+            Double score = link.getScore();
 
             if (issueList.containsKey(issueID)) {
                 IssueData list = issueList.get(issueID);
@@ -81,8 +80,7 @@ public class LinkConnect {
                         ratio = ((double) code.getAddNum() / list.getSumAddNum());
                     else
                         ratio = 0;
-                    double sumScore = score * ratio;
-                            connectLink.add(new ConnectLinkData(functionID, issueID, code.getCode(), score, code.getAddNum(), list.getSumAddNum(), ratio, sumScore));
+                            connectLink.add(new LinkData(functionID, issueID, code.getCode(), score, code.getAddNum(), list.getSumAddNum(), ratio));
                 }
             }
         }

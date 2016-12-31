@@ -1,11 +1,8 @@
 import data.IssueData;
-import fileIO.DataExporter;
-import fileIO.IssueFileExporter;
-import fileIO.IssueFileImporter;
+import fileIO.IssueExporter;
+import fileIO.IssueImporter;
 import format.*;
-import pullRequest.Display;
-import pullRequest.Search_rename;
-;import java.util.ArrayList;
+;
 import java.util.Map;
 
 /**
@@ -14,14 +11,14 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
         issueFormater();
-//        traceLabFormatMaker();
+        traceLabFormatMaker();
     }
     static void issueFormater(){
 //        pullResuest単位なら 1; commit単位なら 2
         int flag = 2;
 
-        Map<String, IssueData> issueList = IssueFileImporter.importIssueFile(flag);
-        IssueFileExporter.exportIssueFile(issueList, flag);
+        Map<String, IssueData> issueList = IssueImporter.importIssueFile(flag);
+        IssueExporter.exportIssueFile(issueList, flag);
     }
 
     static void traceLabFormatMaker(){

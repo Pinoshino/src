@@ -1,12 +1,12 @@
 import data.LinkData;
 import fileIO.DataExporter;
 import fileIO.DataImporter;
-import fileIO.LinkFileImporter;
-import fileIO.LinkListExporter;
+import fileIO.LinkImporter;
+import fileIO.LinkExporter;
 
 import java.util.ArrayList;
 
-import static param.Param.linkListFile;
+import param.Param;
 
 /**
  * Created by kazuki on 2016/12/08.
@@ -16,6 +16,7 @@ public class CodeVersionDif {
     static String afterFile = "data/import/afterCodeList.txt";
     static String difFile = "data/export/difCodeList.txt";
     static String difCodeFile = "data/import/difCodeList.txt";
+    static String fileName = Param.linkListFile;
 
     public static void main(String[] args) {
         applyDif();
@@ -25,10 +26,13 @@ public class CodeVersionDif {
         String version = "v2.5.0";
 
         ArrayList<String> difCode = DataImporter.load(difCodeFile);
-        ArrayList<LinkData> links = LinkFileImporter.importLink_ver(linkListFile);
+        ArrayList<LinkData> links = LinkImporter.importLink_ver(fileName);
         int flag = 0; //1=delete 2=add
         for (String code : difCode) {
-            if (code.equals("deleted code")) {
+            if (code.contains("#")) {
+                version = code.replace("#","");
+                continue;
+            } else if (code.equals("deleted code")) {
                 flag = 1;
                 continue;
             } else if (code.equals("add code")) {
@@ -37,20 +41,16 @@ public class CodeVersionDif {
             }
             for (int i = 0; i < links.size(); i++) {
                 LinkData link = links.get(i);
-                if (code.equals(link.getArticle2())) {
-                    if (flag == 1) {
-                        String str = link.getStatus() + ",code deleted in " + version;
-                        link.setStatus(str);
-                        links.set(i, link);
-                    } else if (flag == 2) {
-                        String str = link.getStatus() + ",code added in " + version;
-                        link.setStatus(str);
-                        links.set(i, link);
-                    }
+                if (code.equals(link.getCode())) {
+                    String str = "";
+                    if (flag == 1) str = "code deleted in " + version;
+                    else if (flag == 2) str = "code added in " + version;
+                    link.setStatus(str);
+                    links.set(i, link);
                 }
             }
         }
-        LinkListExporter.exportVersionLinkList(links);
+        LinkExporter.exportVersionLinkList(links);
 
     }
 

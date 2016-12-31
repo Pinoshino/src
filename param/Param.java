@@ -9,12 +9,12 @@ public class Param {
     public static final String codeListFile = "data/import/codeRenameList.csv";
 
 //リンクの結合
-    public static final String issueDataFile = "data/import/issue.csv";
+    public static final String issueDataFile = "data/import/issue_full.csv";
     public static final String linkListFile = "data/import/sim.csv";
 
     //traceLab用実データ
     public static String inputCodeFolder = "app/code";
-    public static String inputIssueFolder = "app/issue";
+    public static String inputIssueFolder = "app/issue_full";
     public static String inputFunctionFolder = "app/function";
     //    TraceLab用フォーマットファイル
     public static String textFile = "data/template/text.txt";
@@ -24,12 +24,12 @@ public class Param {
 
 //リンクの結合結果
     public static final String issueListFile = "data/export/issueList.csv";
-    public static final String sumLinkFile = "data/export/sumSameLink.csv";
+    public static final String resultLinkFile = "data/export/resultLink.csv";
     public static final String connectLinkListFile = "data/export/connectLinkList.csv";
 
     //TraceLab用ファイル
     public static String codeFile = "data/export/codefile.xml";
-    public static String issueFile = "data/export/issuefile.xml";
+    public static String issueFile = "data/export/issuefile_full.xml";
     public static String functionFile = "data/export/functionfile.xml";
 
 }

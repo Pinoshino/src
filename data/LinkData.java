@@ -4,50 +4,92 @@ package data;
  * Created by kazuki on 2016/06/20.
  */
 public class LinkData implements Data {
-    String article1;
-    String article2;
-    double sumScore;
-    String status;
+    String function;
+    String issue;
+    String code;
 
-    public LinkData(String article1, String article2, double sumScore) {
-        this.article1 = article1;
-        this.article2 = article2;
-        this.sumScore = sumScore;
+    double score;
+    String status = "";
+    String answer;
+
+    int addition;
+    int totalAddition;
+    double ratio;
+
+    public LinkData(String function, String issue, String code, double score, int addition, int totalAddition, double ratio) {
+        this.function = function;
+        this.issue = issue;
+        this.code = code;
+        this.score = score;
+        this.addition = addition;
+        this.totalAddition = totalAddition;
+        this.ratio = ratio;
     }
 
-    public LinkData(String article1, String article2, double sumScore, String status) {
-        this.article1 = article1;
-        this.article2 = article2;
-        this.sumScore = sumScore;
+    public LinkData(String function, String issue, String code, double score) {
+        this.function = function;
+        this.issue = issue;
+        this.code = code;
+        this.score = score;
+    }
+
+    public LinkData(String function, String issue, String code, double score, String status) {
+        this.function = function;
+        this.issue = issue;
+        this.code = code;
         this.status = status;
+        this.score = score;
     }
 
+    public void setStatus(String status) {
+        if (this.status.isEmpty())
+            this.status = status;
+        else
+            this.status += " ;" + status;
+    }
+
+    public String getLink() {
+        return function + "," + code + "," + score;
+    }
+
+    public String getFullLink() {
+        return function + "," + issue + "," + code + "," + score + "," +
+                addition + "," + totalAddition + "," + ratio + "," + getCulcScore();
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public String getFunction() {
+        return function;
     }
 
-    public String getArticle1() {
-        return article1;
+    public String getIssue() {
+        return issue;
     }
 
-    public String getArticle2() {
-        return article2;
+    public String getCode() {
+        return code;
     }
 
-    public void setArticle1(String article1) {
-        this.article1 = article1;
+    public double getScore() {
+        return score;
     }
 
-    public void setArticle2(String article2) {
-        this.article2 = article2;
-    }
-
-    public double getSumScore() {
-        return sumScore;
+    public double getCulcScore() {
+        return score * ratio;
     }
 }

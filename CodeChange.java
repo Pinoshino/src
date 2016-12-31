@@ -1,8 +1,8 @@
 import data.LinkData;
 import fileIO.ChangedCodeInfoImporter;
 import fileIO.DataImporter;
-import fileIO.LinkFileImporter;
-import fileIO.LinkListExporter;
+import fileIO.LinkExporter;
+import fileIO.LinkImporter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,18 +20,18 @@ public class CodeChange {
 
     static void changeRenameCode() {
         Map<String, String> codeList = ChangedCodeInfoImporter.importCodeID();
-        ArrayList<LinkData> linkList = LinkFileImporter.importLinkFile();
+        ArrayList<LinkData> linkList = LinkImporter.importFun_CodeLink();
 
         ArrayList<LinkData> outputLinkList = new ArrayList<LinkData>();
 
         for (LinkData link : linkList) {
-            if (codeList.containsKey(link.getArticle2())) {
-                link.setArticle2(codeList.get(link.getArticle2()));
+            if (codeList.containsKey(link.getCode())) {
+                link.setCode(codeList.get(link.getCode()));
                 link.setStatus("code rename");
             }
             outputLinkList.add(link);
         }
-        LinkListExporter.exportVersionLinkList(outputLinkList);
+        LinkExporter.exportVersionLinkList(outputLinkList);
     }
 
     static void changeCodeVersion() {
@@ -40,19 +40,19 @@ public class CodeChange {
         Double threshold = 0.8;
 
         Map<String, String> codeVersionList = loadCodeList(codeFileName, threshold);
-        ArrayList<LinkData> links = new LinkFileImporter().importLinkFile(linkFileName);
+        ArrayList<LinkData> links = LinkImporter.importFun_CodeLink(linkFileName);
         ArrayList<LinkData> resultLink = new ArrayList<LinkData>();
 
 
         for (LinkData link : links) {
-            String code = link.getArticle2();
+            String code = link.getCode();
             if (codeVersionList.containsKey(code)) {
-                resultLink.add(new LinkData(link.getArticle1(), codeVersionList.get(code), link.getSumScore()));
+                resultLink.add(new LinkData(link.getFunction(),"", codeVersionList.get(code), link.getScore()));
             } else {
                 resultLink.add(link);
             }
         }
-        LinkListExporter.exportLinkList(resultLink);
+        LinkExporter.exportLinkList(resultLink);
     }
 
     static Map<String, String> loadCodeList(String codeFileName, double threshold) {

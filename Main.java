@@ -1,8 +1,9 @@
 import data.IssueData;
-import fileIO.IssueFileExporter;
-import fileIO.IssueFileImporter;
+import fileIO.IssueExporter;
+import fileIO.IssueImporter;
 import format.*;
-;import java.util.Map;
+;
+import java.util.Map;
 
 /**
  * Created by kazuki on 2016/06/20.
@@ -11,18 +12,13 @@ public class Main {
     public static void main(String[] args) {
         issueFormater();
         traceLabFormatMaker();
-
     }
     static void issueFormater(){
-        int pullResuest = 1;
-        int commit = 2;
+//        pullResuest単位なら 1; commit単位なら 2
+        int flag = 2;
 
-        Map<String, IssueData> issueList = new IssueFileImporter().importIssueFile(commit);
-        //        プルリクエストごとのissue作成
-//        new Issue2ListMaker().pullRequestIssueFileExport(issueList);
-
-//        コミットごとのissue作成
-        new IssueFileExporter().exportIssueFile(issueList, commit);
+        Map<String, IssueData> issueList = IssueImporter.importIssueFile(flag);
+        IssueExporter.exportIssueFile(issueList, flag);
     }
 
     static void traceLabFormatMaker(){

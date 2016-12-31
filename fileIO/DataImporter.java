@@ -1,7 +1,9 @@
 package fileIO;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 /**
@@ -13,16 +15,18 @@ public class DataImporter {
         ArrayList<String> list = new ArrayList<String>();
         try {
             File file = new File(fileName);
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(file), "Shift_JIS"));
+//            BufferedReader br = new BufferedReader(new InputStreamReader(
+//                    new FileInputStream(file), "Shift_JIS"));
+
+            Scanner sc = new Scanner(file);
 
             String str;
-            while ((str = br.readLine()) != null) {
+            while (sc.hasNext()) {
+                str = sc.nextLine();
                 if (str.equals("")) continue;
-
                 list.add(str);
             }
-            br.close();
+            sc.close();
         } catch (IOException e) {
             System.out.println(e);
             System.exit(0);
@@ -30,12 +34,12 @@ public class DataImporter {
         return list;
     }
 
-    ArrayList<String[]> loadList(String fileName) {
+    static ArrayList<String[]> loadList(String fileName) {
         ArrayList<String[]> lists = new ArrayList<String[]>();
         ArrayList<String> list = load(fileName);
 
         for (String str : list) {
-            String[] lines = str.split(",", 0);
+            String[] lines = str.split(",");
 
             lists.add(lines);
         }

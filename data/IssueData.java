@@ -9,23 +9,12 @@ import java.util.Map;
  */
 public class IssueData implements Data {
 
-//    class Code{
-//        String code;
-//        int changeNum;
-//
-//        Code(String code, int changeNum) {
-//            this.code = code;
-//            this.changeNum = changeNum;
-//        }
-//    }
-//    static Map<String, ArrayList<data.IssueData>> issueList = new HashMap<String, ArrayList<data.IssueData>>();
-
     String ID;
-    String pullRequest;
-    Map<String,String> comments = new HashMap<String, String>();
+    String pullRequestTitle;
+    String pullRequestBody;
+    Map<String, String> commits = new HashMap<String, String>();
     ArrayList<Code> codes = new ArrayList<Code>();
-    int sumChangeNum =0;
-    int sumChangeAddNum =0;
+    int sumAddNum = 0;
 
     public String getID() {
         return ID;
@@ -35,39 +24,57 @@ public class IssueData implements Data {
         return codes;
     }
 
-    public int getSumChangeNum() {
-        return sumChangeNum;
+    public String getPullRequestBody() {
+        return pullRequestBody;
     }
 
-    public int getSumChangeAddNum() {
-        return sumChangeAddNum;
+    public int getSumAddNum() {
+        return sumAddNum;
     }
 
-    public String getPullRequest() {
-        return pullRequest;
+    public String getPullRequestTitle() {
+        return pullRequestTitle;
     }
 
-    public Map<String, String> getComments() {
-        return comments;
+    public Map<String, String> getCommits() {
+        return commits;
     }
 
-    public IssueData(String ID, String pullRequest, String comment, String code, int changeNum,int changeAddNum) {
+    public IssueData(String ID, String pullRequestTitle, String pullRequestBody, String commit, String code, int changeAddNum) {
         this.ID = ID;
-        this.pullRequest = pullRequest;
-        setComment(comment);
-        setCode(code, changeNum,changeAddNum);
+        this.pullRequestTitle = pullRequestTitle;
+        this.pullRequestBody = pullRequestBody;
+        setCommit(commit);
+        setCode(code, changeAddNum);
     }
 
-    public void setComment(String comment){
-        if(!comments.containsKey(comment)){
-            comments.put(comment,comment);
+    public void setCommit(String commit) {
+        if (!commits.containsKey(commit)) {
+            commits.put(commit, commit);
         }
     }
 
-    public void setCode(String code, int changeNum, int changeAddNum){
-        codes.add(new Code(code, changeNum,changeAddNum));
-        sumChangeNum+=changeNum;
-        sumChangeAddNum+=changeAddNum;
+    public void setCode(String code, int changeAddNum) {
+        codes.add(new Code(code, changeAddNum));
+        sumAddNum += changeAddNum;
+    }
+
+    public String getCommitList() {
+        Map<String, String> commitList = getCommits();
+        String str = "\"";
+        for (String commit : commitList.values())
+            str += commit.replace("\"", "\"\"") + "\r\n";
+        str += "\"";
+        return str;
+    }
+
+    public String getCodeList() {
+        ArrayList<Code> codeList = getCodes();
+        String str = "\"";
+        for (Code code : codeList)
+            str += code.getCode() + "\r\n";
+        str += "\"";
+        return str;
     }
 
 }

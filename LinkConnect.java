@@ -12,94 +12,75 @@ import java.util.Map;
 public class LinkConnect {
 
     public static void main(String[] args) {
-        int commit=2;
+        //        pullResuest単位なら 1; commit単位なら 2
+        int flag = 2;
 
-//        Map<String, Issue2Data> issueList = new Issue2FileImporter().importIssueFile();
-        Map<String, IssueData> issueList = new IssueFileImporter().importIssueFile(commit);
-        IssueFileExporter.exportIssueList(issueList);
+//        issueの読み込み&書き出し
+        Map<String, IssueData> issueList = IssueImporter.importIssueFile(flag);
+        IssueExporter.exportIssueList(issueList);
 
+//        リンクの結合
+        ArrayList<LinkData> linkList = LinkImporter.importFun_IssueLink();
+        ArrayList<LinkData> connectLink = connectLink(linkList, issueList);
+        LinkExporter.exportConnectLink(connectLink);
 
-        ArrayList<LinkData> linkList = new LinkFileImporter().importLinkFile();
-        ArrayList<ConnectLinkData> connectLink = connectLink2(linkList, issueList);
-        ConnectLinkExporter.exportConnectLink(connectLink);
-
-        linkList=sumSameLink(new ConnectLinkFileImporter().importConnectLinkFile());
-        LinkListExporter.exportLinkList(linkList);
+//        重複リンクの統合
+//        linkList=sumSameLink(new ConnectLinkFileImporter().importConnectLinkFile());
+        linkList = sumSameLink(connectLink);
+        LinkExporter.exportLinkList(linkList);
     }
 
-    static ArrayList<LinkData> sumSameLink(ArrayList<ConnectLinkData> connectLink) {
-        Map<String, Map<String, LinkData>> hashlist = new HashMap<String, Map<String, LinkData>>();
 
-        for (ConnectLinkData list : connectLink) {
-            double add = list.getAddScore();
-            double del = list.getDelScore();
-            double sum = list.getSumScore();
-            String req = list.getReq();
+    static ArrayList<LinkData> sumSameLink(ArrayList<LinkData> connectLink) {
+        Map<String, Map<String, LinkData>> hashList = new HashMap<String, Map<String, LinkData>>();
+
+        for (LinkData list : connectLink) {
+            String req = list.getFunction();
             String code = list.getCode();
+            double score = list.getCulcScore();
 
-            if (hashlist.containsKey(req) && hashlist.get(req).containsKey(code)) {
-                LinkData link = hashlist.get(req).get(code);
-                add += link.getAddScore();
-                del += link.getDelScore();
-                sum += link.getSumScore();
-                hashlist.get(req).put(code, new LinkData(req, code, add, del, sum));
+            if (hashList.containsKey(req) && hashList.get(req).containsKey(code)) {
+                score += hashList.get(req).get(code).getScore();
+                hashList.get(req).put(code, new LinkData(req,"",code,score));
             } else {
-                if (!hashlist.containsKey(req))
-                    hashlist.put(req, new HashMap<String, LinkData>());
-                hashlist.get(req).put(code, new LinkData(req, code, add, del, sum));
+                if (!hashList.containsKey(req))
+                    hashList.put(req, new HashMap<String, LinkData>());
+                hashList.get(req).put(code, new LinkData(req,"",code,score));
             }
         }
 
         ArrayList<LinkData> linkList = new ArrayList<LinkData>();
-        for (String key1 : hashlist.keySet()) {
-            Map<String, LinkData> temp = new HashMap<String, LinkData>(hashlist.get(key1));
+        for (String key1 : hashList.keySet()) {
+            Map<String, LinkData> temp = new HashMap<String, LinkData>(hashList.get(key1));
             for (String key2 : temp.keySet()) {
                 LinkData link = temp.get(key2);
-                linkList.add(new LinkData(link.getArti1(), link.getArti2(), link.getAddScore(), link.getDelScore(), link.getSumScore()));
+                linkList.add(link);
             }
         }
         return linkList;
     }
 
-//    static ArrayList<ConnectLinkData> connectLink(ArrayList<LinkData> linkList, Map<String, ArrayList<IssueData>> issueList) {
-//        ArrayList<ConnectLinkData> connectLink = new ArrayList<ConnectLinkData>();
-//
-//        for (LinkData link1 : linkList) {
-//            String req = link1.getArti1();
-//            String issue = link1.getArti2();
-//            Double score = link1.getSumScore();
-//
-//            ArrayList<IssueData> list = null;
-//            if (issueList.containsKey(issue))
-//                list = issueList.get(issue);
-//            else continue;
-//
-//            for (IssueData link : list) {
-//                if (link == null) break;
-//
-//                double addScore = score * link.getRateAddNum();
-//                double delScore = score * link.getRateDelNum();
-//                double sumScore = score * link.getRateNum();
-//                connectLink.add(new ConnectLinkData(req, issue, link.getCode(), score, link.getAddNum(), link.getDelNum(), addScore, delScore, sumScore));
-//            }
-//        }
-//        return connectLink;
-//    }
 
-    static ArrayList<ConnectLinkData> connectLink2(ArrayList<LinkData> linkList, Map<String, IssueData> issueList) {
-        ArrayList<ConnectLinkData> connectLink = new ArrayList<ConnectLinkData>();
+    static ArrayList<LinkData> connectLink(ArrayList<LinkData> linkList, Map<String, IssueData> issueList) {
+        ArrayList<LinkData> connectLink = new ArrayList<LinkData>();
 
-        for (LinkData link1 : linkList) {
-            String req = link1.getArti1();
-            String issue = link1.getArti2();
-            Double score = link1.getSumScore();
+        for (LinkData link : linkList) {
+            String functionID = link.getFunction();
+            String issueID = link.getIssue();
+            Double score = link.getScore();
 
-            if (issueList.containsKey(issue)) {
-                IssueData list = issueList.get(issue);
+            if (issueList.containsKey(issueID)) {
+                IssueData list = issueList.get(issueID);
 
                 for (Code code : list.getCodes()) {
-                    double sumScore = score * ((double) code.getChangeAddNum() / list.getSumChangeAddNum());
-                    connectLink.add(new ConnectLinkData(req, issue, code.getCode(), score, code.getChangeAddNum(), list.getSumChangeAddNum(), ((double) code.getChangeAddNum() / list.getSumChangeAddNum()), 0, sumScore));
+                    double ratio;
+
+//                    変更行数の割合でスコアの重み付け
+                    if(list.getSumAddNum()!=0)
+                        ratio = ((double) code.getAddNum() / list.getSumAddNum());
+                    else
+                        ratio = 0;
+                            connectLink.add(new LinkData(functionID, issueID, code.getCode(), score, code.getAddNum(), list.getSumAddNum(), ratio));
                 }
             }
         }

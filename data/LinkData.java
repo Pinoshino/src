@@ -3,52 +3,93 @@ package data;
 /**
  * Created by kazuki on 2016/06/20.
  */
-public class LinkData implements Data{
-    String arti1;
-    String arti2;
-    double addScore;
-    double delScore;
-    double sumScore;
+public class LinkData implements Data {
+    String function;
+    String issue;
+    String code;
 
-    public LinkData(String arti1, String arti2, double sumScore) {
-        this.arti1 = arti1;
-        this.arti2 = arti2;
-        this.sumScore = sumScore;
+    double score;
+    String status = "";
+    String answer;
+
+    int addition;
+    int totalAddition;
+    double ratio;
+
+    public LinkData(String function, String issue, String code, double score, int addition, int totalAddition, double ratio) {
+        this.function = function;
+        this.issue = issue;
+        this.code = code;
+        this.score = score;
+        this.addition = addition;
+        this.totalAddition = totalAddition;
+        this.ratio = ratio;
     }
 
-    public LinkData(String arti1, String arti2, double addScore, double delScore, double sumScore) {
-        this.arti1 = arti1;
-        this.arti2 = arti2;
-        this.addScore = addScore;
-        this.delScore = delScore;
-        this.sumScore = sumScore;
+    public LinkData(String function, String issue, String code, double score) {
+        this.function = function;
+        this.issue = issue;
+        this.code = code;
+        this.score = score;
     }
 
-    public String getArti1() {
-        return arti1;
+    public LinkData(String function, String issue, String code, double score, String status) {
+        this.function = function;
+        this.issue = issue;
+        this.code = code;
+        this.status = status;
+        this.score = score;
     }
 
-    public void setArti1(String arti1) {
-        this.arti1 = arti1;
+    public void setStatus(String status) {
+        if (this.status.isEmpty())
+            this.status = status;
+        else
+            this.status += " ;" + status;
     }
 
-    public void setArti2(String arti2) {
-        this.arti2 = arti2;
+    public String getLink() {
+        return function + "," + code + "," + score;
     }
 
-    public String getArti2() {
-        return arti2;
+    public String getFullLink() {
+        return function + "," + issue + "," + code + "," + score + "," +
+                addition + "," + totalAddition + "," + ratio + "," + getCulcScore();
     }
 
-    public double getAddScore() {
-        return addScore;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
-    public double getDelScore() {
-        return delScore;
+    public String getAnswer() {
+        return answer;
     }
 
-    public double getSumScore() {
-        return sumScore;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getFunction() {
+        return function;
+    }
+
+    public String getIssue() {
+        return issue;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public double getCulcScore() {
+        return score * ratio;
     }
 }

@@ -1,12 +1,9 @@
 package pullRequest;
 
-import net.arnx.jsonic.JSON;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 //import format.PullRequestListMaker;
@@ -14,7 +11,7 @@ import java.util.Map;
 /**
  * Created by Ryoto on 2016/08/06.
  */
-public class GitHubReferrer3 {
+public class GitHubReferrer2 {
     // GitHubAPIにアクセスするためのトークン。アクセス制限数を増やせる
     private static final String GITHUB_TOKEN = "ad5b2f370efa8124701d728f9e13ff1ebfcc1859";
     /*
@@ -62,17 +59,18 @@ public class GitHubReferrer3 {
 
     // 現在はmainメソッドにしているが必要に応じて入れ替える
     //    public static void makePullRequestCsv(String user, String repo) throws Exception {
-    public static void main(String[] args) throws Exception {
+
+    public static void getGithubInfo(String user, String repo) throws Exception { // main関数をただの関数にして引数とする
         // userとrepoは試験的に固定にしている
-//        String user = "AndlyticsProject"; // リポジトリのユーザー
-//        String repo = "andlytics"; // リポジトリ名
-        String user = "dougkeen"; // リポジトリのユーザー
-        String repo = "bartrunnerandroid"; // リポジトリ名
-        // String user = "Pinoshino"; // リポジトリのユーザー
-        // String repo = "src"; // リポジトリ名
+       // String user = "AndlyticsProject"; // リポジトリのユーザー
+       // String repo = "andlytics"; // リポジトリ名
+        // String user = "dougkeen"; // リポジトリのユーザー
+        // String repo = "bartrunnerandroid"; // リポジトリ名
+        //  String user = "Pinoshino"; // リポジトリのユーザー
+        //  String repo = "src"; // リポジトリ名
 
         String baseUrl = "https://api.github.com";
-
+        String normalUrl = "https://github.com"; // apiではない普通のURL
         /*
          * csvの設定とファイル作成、上書き
          */
@@ -90,11 +88,16 @@ public class GitHubReferrer3 {
         csvWriter.flush();
 
         int page = 1;
+        int id=0;
+
+        // Display.javaで読み込むためのURLを作成
+        String normalPull = normalUrl + "/" + user + "/" + repo + "/pull/" + id + "/files";
+
         while (true) {
             // 全てのプルリクエストの概要のURL
             String pullsUrl = baseUrl + "/repos/" + user + "/" + repo + "/pulls?state=all&page=" + page;
             //取得
-            Map[] pullRequests = JSON.decode(getLineFromUrl(pullsUrl), Map[].class);
+            Map[] pullRequests = net.arnx.jsonic.JSON.decode(getLineFromUrl(pullsUrl), Map[].class);
             if (pullRequests.length == 0) break;
 
             // 取得したプルリクエスト一覧についてコミット一覧を取得する
@@ -118,7 +121,7 @@ public class GitHubReferrer3 {
                 // 1プルリクエストのコミット一覧URL
                 String pullUrl = pullRequest.get("commits_url").toString();
                 // 取得
-                Map<String, Map>[] commits = JSON.decode(getLineFromUrl(pullUrl), Map[].class);
+                Map<String, Map>[] commits = net.arnx.jsonic.JSON.decode(getLineFromUrl(pullUrl), Map[].class);
 
                 // 取得したコミット一覧について、各コミットの詳細情報を取得する
                 for (Map<String, Map> commit : commits) {
@@ -130,7 +133,7 @@ public class GitHubReferrer3 {
                     // 1コミットの詳細URL
                     String commitUrl = baseUrl + "/repos/" + user + "/" + repo + "/commits/" + commit.get("sha");
                     // 取得
-                    Map<String, ArrayList<Map>> commitDetail = JSON.decode(getLineFromUrl(commitUrl), Map.class);
+                    Map<String, ArrayList<Map>> commitDetail = net.arnx.jsonic.JSON.decode(getLineFromUrl(commitUrl), Map.class);
 
                     // 取得したコミット情報の中から、ファイルに関する情報を取り出し詳細を書き出す
                     ArrayList<Map> files = commitDetail.get("files");
@@ -139,7 +142,7 @@ public class GitHubReferrer3 {
 //            Map file = files.get(0);
 //            csvWriter.println(file);
 
-                    for (Map file : files)
+                    for (Map file : files){
                         if (!((String) file.get("filename")).contains(".java"))
                             continue;
                        //contents.add(""+commit.get("message"));
@@ -148,7 +151,7 @@ public class GitHubReferrer3 {
                                           "\",\"" + escDblQuote((String) commit.get("commit").get("message")) +
                                            "\",\"" + escDblQuote((String) file.get("filename")) + "\",\"" + file.get("additions") +
                                             "\",\"" + file.get("deletions") + "\",\"" + file.get("changes")  + "\",\"" + pullRequest.get("diff_url") +
-                                             "\",\"" + pullRequest.get("created_at") + "\",\"" + milestone + "\",\"" + file.get("diff_url") + "\"");
+                                             "\",\"" + pullRequest.get("created_at") + "\",\"" + milestone + "\"");
                        csvWriter.flush();
                        //System.out.println( file.get("patch"));
                     }

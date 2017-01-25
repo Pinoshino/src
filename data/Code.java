@@ -5,22 +5,15 @@ package data;
  */
 public class Code {
         String code;
-        int changeNum;
-        int changeAddNum;
+        int addNum;
 
-        Code(String code, int changeNum, int changeAddNum) {
+        Code(String code,  int addNum) {
             this.code = code;
-            this.changeNum = changeNum;
-            this.changeAddNum = changeAddNum;
+            this.addNum = addNum;
         }
 
     public String getCode() {
         return code;
     }
-    public int getChangeNum() {
-        return changeNum;
-    }
-    public int getChangeAddNum() {
-        return changeAddNum;
-    }
+    public int getAddNum() { return addNum;}
 }
